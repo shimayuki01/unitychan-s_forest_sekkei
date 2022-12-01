@@ -1,0 +1,13 @@
+{
+    "keycom":{
+        "esc":"pose"
+
+    },
+
+    "keycomLong":{
+        "w":"move",
+        "s":"move"
+    }
+
+    
+}

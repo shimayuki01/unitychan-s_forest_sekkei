@@ -1,0 +1,56 @@
+@startuml
+
+class InputKey{
+    string _key 
+    Vector2 moveVec[axis,horizon]
+
+    event Key
+    event Longkey
+
+}
+
+class KeyLoadJson{
+    Dictionary<string, string> KeyCom
+    Dictionary<string, string> LongKeyCom
+
+    keyLord()
+    key2com()
+    longKey2com()
+    com2key()
+}
+
+class ActivateKey{
+    command 
+
+    key
+    {command = key2com}
+
+    Longkey
+    {command = longKey2com}
+
+    Activate()
+    {if(getCanUseCom)
+        fireEvent(pozu)}
+}
+
+class ComEvent{
+    event pose
+    event move
+    fireEvent(str com)
+}
+
+class UseCom{
+    Dictionary<string, bool> _usecom
+
+    bool getCanUseCom(string com)
+    setCanUseCom(string com, bool)
+
+}
+
+
+
+InputKey <- ActivateKey
+KeyLoadJson <- ActivateKey
+UseCom <- ActivateKey
+ComEvent <-up- ActivateKey
+ComEvent -> InputKey
