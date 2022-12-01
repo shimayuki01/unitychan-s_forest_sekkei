@@ -54,3 +54,5 @@ KeyLoadJson <- ActivateKey
 UseCom <- ActivateKey
 ComEvent <-up- ActivateKey
 ComEvent -> InputKey
+
+@enduml

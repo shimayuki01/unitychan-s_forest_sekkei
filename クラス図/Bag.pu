@@ -1,0 +1,7 @@
+@startuml
+class Bag{
+kosuu=[1,23,45,11]
+mono=[tree,tree,isi,kusa]
+list getBagContent()
+
+}
