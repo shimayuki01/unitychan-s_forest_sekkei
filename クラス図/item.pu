@@ -1,0 +1,35 @@
+Folder getJson{
+
+class item{
+    string imgFileName
+    string name
+    string description
+
+}   
+class canEatItem{
+    int heal_amount
+}
+
+class craftItem{
+    Dictionary sozai
+}
+
+class craftCanEatItem{
+    Dictionary sozai
+}
+class ItemDataArray
+{
+  Item[] gameItems;
+}
+
+class JsonReaderFromResourcesFolder
+{
+   ItemDataArray GetItemDataArray ()
+}
+
+
+}
+
+item <|-- craftItem
+item <|-- canEatItem
+canEatItem <|-- craftCanEatItem
