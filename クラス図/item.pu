@@ -1,20 +1,30 @@
 Folder getJson{
 
+interface IAction{
+    Use()
+}
+
 class item{
+    #木や石など
     string imgFileName
     string name
     string description
+    music SE
+    use()
 
 }   
 class canEatItem{
+    #リンゴや木の実
     int heal_amount
 }
 
 class craftItem{
+    #斧など
     Dictionary sozai
 }
 
 class craftCanEatItem{
+    #料理
     Dictionary sozai
 }
 class ItemDataArray
@@ -30,6 +40,23 @@ class JsonReaderFromResourcesFolder
 
 }
 
+class Ono{
+    int Lv
+    int useHP
+    int atk
+
+}
+
+
+item --u|> IAction
 item <|-- craftItem
 item <|-- canEatItem
 canEatItem <|-- craftCanEatItem
+craftItem <|-- Ono
+
+
+class PlayerStatus{
+    int HP
+    Ono ono
+}
+

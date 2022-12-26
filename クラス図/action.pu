@@ -1,0 +1,15 @@
+@startuml
+
+class ActionEvent{
+    AcitonEvent.add(a.use())
+
+}
+class Action{
+   IAction HandInItem()現在の持ち物を返す
+    a = HandInItem()
+}
+
+class SE{
+    playMusic()
+}
+
