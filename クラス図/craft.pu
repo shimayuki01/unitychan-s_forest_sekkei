@@ -27,24 +27,7 @@ class Craft{
 }
 }
 Folder getJson{
-class Item{
-    string imgFileName
-    string name
-    string description
-    int amount
-    Dictionary sozai
-
-}
-class ItemDataArray
-{
-  Item[] gameItems;
-}
-
-class JsonReaderFromResourcesFolder
-{
-   ItemDataArray GetItemDataArray ()
-}
-
+class item{}
 
 }
 
