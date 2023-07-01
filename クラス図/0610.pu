@@ -109,7 +109,8 @@ interface ICookItemSozaiAcquisition{
 
 interface IItemConsumption{
     void inItem(string itemId, int num)
-    void deleteItem(string item_id, int num)
+    void subItemQuantity(string item_id, int num)
+    List getInItemArgumentList()
 }
 class Cook{
     - [Serialize]IItemConsumption bag
