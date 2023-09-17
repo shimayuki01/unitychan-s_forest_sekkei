@@ -1,15 +1,96 @@
 @startuml
 
-class ActionEvent{
-    AcitonEvent.add(a.use())
+class InputKey{
+    ユーザから入力を受け取る
+    KeyCode OnKeyDown
+    bool OnShiftKeyDown 
+    Vector2 OnDownWASD 
+    
+}
 
-}
 class Action{
-   IAction HandInItem()現在の持ち物を返す
-    a = HandInItem()
+    OnKeyDown,OnShiftKeyDown,OnDownWASD
+    上記のイベントにアクションを登録する。
 }
+
+class ActionEvent{
+    登録するアクションの定義
+    Walk()
+    Cook()
+    PickUpItem()
+}
+
+
+
+
+InputKey <-- Action
+Action --> ActionEvent
+ActionEvent --> Player
 
 class SE{
     playMusic()
 }
 
+folder Player{
+
+interface IAction{
+    void Use()
+}
+
+
+interface IBag{
+    Dictionary<string, int> getBagSummary()
+    void inItem(string itemId, int num)
+    void outItem()
+}
+
+interface IManager{
+    void doCook(string cookItem_id)
+}
+
+
+
+class Player
+{
+    int hp
+    IOno playerOno
+    IBag playerBag
+    IManger Cook
+
+    + int getPlayerOnoLv()
+    + int getPlayerOnoAtk() 
+    + Bag getPlayerBag()
+    + healHp(int heal_point)
+    + cook(string cookItem_id)
+    + Dictionary<string, int> getBagSummary()
+}
+
+
+interface ICookItemSozaiAcquisition{
+    Sozai[] getCookItemSozai(string cookItem_id)
+}
+
+interface IItemConsumption{
+    void inItem(string itemId, int num)
+    void subItemQuantity(string item_id, int num)
+    List getInItemArgumentList()
+}
+class Cook{
+    - [Serialize]IItemConsumption bag
+    + doCook(string cookItem_id)
+    - deleteSozaiBag(sozai[])
+}
+}
+
+Player-->IBag
+Player-->IAction
+Player-->IManager
+Item--.up|>IAction
+Bag--.up|>IBag
+Bag--.up|>IItemConsumption
+Bag--> Block
+Cook-.up|>IManager
+Cook-->IItemConsumption
+Cook-->ICookItemSozaiAcquisition
+GameData-->Items
+GameData-.|>ICookItemSozaiAcquisition
