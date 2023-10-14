@@ -33,8 +33,15 @@ class SE{
 
 folder Player{
 
-interface IAction{
+interface IPlayerItem{
     void Use()
+}
+
+
+
+interface IPlayerMove{
+    void Walk()
+    void Run()
 }
 
 
@@ -48,6 +55,10 @@ interface IManager{
     void doCook(string cookItem_id)
 }
 
+class Animeation{
+    \\走ってるときに斧を振ったら強制的に止まって斧を振る
+    \\斧を振る->移動の入力を受け取らない
+}
 
 
 class Player
@@ -80,12 +91,22 @@ class Cook{
     + doCook(string cookItem_id)
     - deleteSozaiBag(sozai[])
 }
+
+class Move{
+    moveSpeed
+    void Move(GameObject gemeobject, vecter2 WalkMove, float moveSpeed)
+    {
+        animation
+    }
+}
 }
 
+
 Player-->IBag
-Player-->IAction
+Player-->IPlayerItem
 Player-->IManager
-Item--.up|>IAction
+Player-->IPlayerMove
+Item--.up|>IPlayerItem
 Bag--.up|>IBag
 Bag--.up|>IItemConsumption
 Bag--> Block
@@ -94,3 +115,5 @@ Cook-->IItemConsumption
 Cook-->ICookItemSozaiAcquisition
 GameData-->Items
 GameData-.|>ICookItemSozaiAcquisition
+Move-.up|>IPlayerMove
+Animeation 
