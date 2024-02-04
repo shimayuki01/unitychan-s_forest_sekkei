@@ -1,0 +1,172 @@
+@startuml
+class GameData{
+
+    Item[] itemDataArray 
+    CookItem[] cookItemDataArray 
+    Dictionary<string, Item> id2Item 
+    Dictionary<string, CookItem> id2CookItem 
+    Dictionary<string, CookItem> recipeName2item 
+
+    void Awake()
+    Item getItemFromId(string item_id)
+    CookItem getCookItemFromId(string cookItem_id)
+    CookItem[] getCookItemDataArray()
+}
+
+Folder Bag{
+
+class Bag{
+    static int _maxContentsNum = 10 
+    Block[] _blockContents = new Block[_maxContentsNum] 
+    int _oneBlockMax 
+    //_summaryContents<id,数>
+    Dictionary<String, int> _summaryContents = new Dictionary<String, int>() 
+    
+    bool canIn() //バックに入れられるか確認する関数の追加
+    bool biggerQuantity(String id, int quantity) //指定したアイテムの個数がバッグの中身より多ければtrueを返す
+    + void inItem(String id, int quantity) //バッグの中に物を入れる（ものを拾う）
+    //バッグからアイテムを削除する（料理で素材を消費した場合など）
+    //アイテムが削除できなかった場合はfalseを返す。削除出来たらtrue。
+    + bool deleteItem(String id, int quantity)
+    int getItemQuantity(string item_id)
+    void summaryToBlock() //ブロック（バッグの中身の形）に変換する
+
+}
+
+class Block
+{
+    String _itemId 
+    int _quantity 
+    static int _max 
+
+    + Block(String id, int num) //コンストラクタ
+    String getItemId()
+    int getQuantity() 
+
+    delegate void addNum() 
+    delegate void subNum() 
+    delegate void maxNum() 
+    delegate void zeroNum() 
+}
+}
+
+
+
+folder Player{
+
+
+
+
+
+class Player
+{
+    int hp
+    IOno playerOno
+    IMnager manager
+    IPlayerMove playerMove
+
+
+    + void inItem(string id, int quantity)
+    + healHp(int heal_point)
+    + void Cook(string cookItem_id)
+    + void Walk(Vector2 walkVector)
+    + int getPlayerOnoLv()
+    + int getPlayerOnoAtk() 
+    + Dictionary<string, int> getBagSummary()
+}
+
+interface IAction{
+    void Use()
+}
+
+interface IManager{
+    void doCook(string cookItem_id) 
+    void pickUpItem(string id, int quantity) 
+    Dictionary<string, int> getBagSummary() 
+}
+
+interface IPlayerMove {
+    void run() 
+    void walk(Vector2 walkVecter) 
+}
+
+interface IOno{
+    + int getPlayerOnoLv()
+    + int getPlayerOnoAtk()
+}
+
+interface ICookItemSozaiAcquisition{
+    Sozai[] getCookItemSozai(string cookItem_id)
+}
+
+
+class PlayerManager{
+    IItemConsumption _bag
+    ICookItemSozaiAcquisition _cookItemSozaiAcquisition
+    + doCook(string cookItem_id)
+    + void pickUpItem(string item_id, int quantity)
+    + Dictionary<string, int> getBagSummary()
+}
+
+interface IItemConsumption{
+    void inItem(string itemId, int num) 
+    void subItemQuantity(string item_id, int num) 
+    List<string> createInItemArgumentList()     //バッグに入れることができるアイテムのidのリスト
+    Dictionary<string, int> getBagSummary() 
+    bool isMaxBag() 
+}
+
+class Walk{
+    CharacterController con
+    Animator anim
+    Vector3 moveDirection
+    void Walk()
+    void Run()
+}
+
+class Ono{
+    int lv
+    int atk
+    int getLv()
+    int getAtk()
+    void Use()
+}
+
+}
+
+note right of Items: 詳しくはitem.pu参照
+folder Items{
+
+class Item{}
+class CraftItem{}
+
+
+}
+
+
+Player-->IAction
+Player-->IManager
+Player-->IOno
+Player-->IPlayerMove
+
+Item-.up|>IAction
+CraftItem--up|>Item
+Bag--.up|>IItemConsumption
+Bag--up> Block
+Ono--.up|>IOno
+Ono--up|>CraftItem
+Walk-.up|>IPlayerMove
+PlayerManager-.up|>IManager
+PlayerManager-->IItemConsumption
+PlayerManager-->ICookItemSozaiAcquisition
+GameData-.up>Item
+GameData-.up|>ICookItemSozaiAcquisition
+
+
+
+
+
+
+
+
+

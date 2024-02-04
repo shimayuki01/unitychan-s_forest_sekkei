@@ -4,29 +4,7 @@ interface IAction{
     Use()
 }
 
-class item{
-    #木や石など
-    string imgFileName
-    string name
-    string description
-    music SE
-    use()
 
-}   
-class canEatItem{
-    #リンゴや木の実
-    int heal_amount
-}
-
-class craftItem{
-    #斧など
-    Dictionary sozai
-}
-
-class craftCanEatItem{
-    #料理
-    Dictionary sozai
-}
 class ItemDataArray
 {
   Item[] gameItems;
@@ -37,7 +15,39 @@ class JsonReaderFromResourcesFolder
    ItemDataArray GetItemDataArray ()
 }
 
+class Item {
+    + string imgFileName
+    + string name
+    + string description
+    + string id
+    void Use()
+}
 
+class EatItem 
+{
+    //リンゴや木の実
+    //music SE 
+    int heal_amount 
+
+}
+
+class CraftItem
+{
+    // 斧など
+    + Sozai[] sozai 
+}
+
+class CookItem
+{
+    // 料理
+    + Sozai[] sozai 
+}
+
+class Sozai
+{
+    + string id 
+    + int num 
+}
 }
 
 class Ono{
@@ -46,17 +56,20 @@ class Ono{
     int atk
 
 }
-
-
-item --u|> IAction
-item <|-- craftItem
-item <|-- canEatItem
-canEatItem <|-- craftCanEatItem
-craftItem <|-- Ono
-
-
 class PlayerStatus{
     int HP
     Ono ono
 }
+
+
+Item --u|> IAction
+
+CraftItem <|-- Ono
+
+EatItem --up|>Item
+CraftItem ---up|>Item
+CookItem --up|>EatItem
+CookItem --u> Sozai
+CraftItem --u>Sozai
+
 

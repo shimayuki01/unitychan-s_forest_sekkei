@@ -1,0 +1,61 @@
+@startuml
+
+class InputKey{
+    ユーザから入力を受け取る
+    KeyCode OnKeyDown
+    bool OnShiftKeyDown 
+    Vector2 OnDownWASD 
+    
+}
+
+class RegisterAction{
+    InputKey _inputKey
+    ExecuteAction _executeAction
+    DyanamicGameScene dyanamicGameScene
+    Dictionary<string, Dictionary<string, List<KeyCode>>> _state2Keyconfig
+    InitKeyconfig()
+}
+
+class ExecuteAction{
+    Player _player     
+    Button _actionButton     
+    BaseMenuPanel _baseMenuPanel     
+    GameObject _bagPanel 
+    void Cook()
+    void Walk()
+    void Action()
+    void closePanel()
+    void openBag()   
+}
+
+
+
+
+
+
+folder Player{
+
+
+
+class Player
+{
+    int hp
+    IOno playerOno
+    IMnager manager
+    IPlayerMove playerMove
+
+
+    + void inItem(string id, int quantity)
+    + healHp(int heal_point)
+    + void Cook(string cookItem_id)
+    + void Walk(Vector2 walkVector)
+    + int getPlayerOnoLv()
+    + int getPlayerOnoAtk() 
+    + Dictionary<string, int> getBagSummary()
+}
+}
+
+RegisterAction--up>InputKey
+RegisterAction--up>ExecuteAction
+ExecuteAction--up>Player
+
