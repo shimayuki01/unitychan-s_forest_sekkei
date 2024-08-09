@@ -16,27 +16,33 @@ class RegisterAction{
     InitKeyconfig()
 }
 
-class ExecuteAction{
-    Player _player     
-    Button _actionButton     
-    BaseMenuPanel _baseMenuPanel     
-    GameObject _bagPanel 
+
+
+Folder NormalSecene{
+
+interface IPlayerAction{
     void Cook()
     void Walk()
-    void Action()
-    void closePanel()
-    void openBag()   
+}
+interface IManuPanelActivator{
+    //game画面のUIについて
+    void cantact()
+    void openBag() 
+    void openMap() 
+}
 }
 
 
 
-
-
+Folder MenueSecene{
+interface IMenueUI{
+    //Menue画面のUIについて
+    void closePanel()
+    
+}
+}
 
 folder Player{
-
-
-
 class Player
 {
     int hp
@@ -55,7 +61,125 @@ class Player
 }
 }
 
-RegisterAction--up>InputKey
-RegisterAction--up>ExecuteAction
-ExecuteAction--up>Player
+class ManuPanelActivator{
+    void cantact()
+    バッグメニューを生成する
+    void openBag()
+    void openMap()
+}
+Folder Menue{
+' interface IPanelManager{
+'     パネルを表示する
+'     void InstiatePanel(GameObject panel)
+' }
 
+
+
+class MenuPanelManager{
+    パネルの生成・削除を行う
+    InstiateManuPanel(GameObject panel)
+    void ClosePanel()
+}
+
+class Button{
+    button.onClick.Invoke()
+    
+    クラスではなくUnityのボタン 
+}
+
+Folder CookMenu{
+class CraftTrigger{
+    クックメニューを生成する
+    void OpenCraftPanel(Player player)
+}
+class CookExeButton{
+    シングルトン
+    Player player;
+    string itemId;
+    void exeCook()
+}
+class CookItemPanel{
+    string itemId
+    void OnClickItemPanel()
+    string getItemId()
+    void setItemId(string newItemId)
+}
+class CookItemPreview{
+    シングルトン
+    void ShowSelectedItem(string itemId)
+    void SozaiPreview(string cookItemId)
+}
+class RecipeRenderer{
+    CookItem[] _recipeArray
+    void OpenCookMenu(GameObject cookPanel, Player player)
+
+}
+}
+
+
+Folder BagMenu{
+class BagContensRenderer{
+    IPlayerBagController playerBag
+    表示されたメニューに所持アイテムを表示する
+    void OpenBagPanel(GameObject bagPanel) 
+}
+
+class BagItemPanel{
+    所持アイテムを表示するパネルごとにアタッチする
+    string itemId
+    void OnClickItemPanel()
+    string getItemId()
+    void setItemId()
+}
+
+
+class BagItemPreview{
+    TODO: インターフェースに変更する
+    シングルトン
+    ItemPreview _itemPreview
+    void showSelectedItem(string itemId)
+}
+
+}
+class ItemPreview{
+    プレビュー画面にアイテムを表示する
+    void ShowSelectedItem(string itemId, GameObject gameObject)
+}
+
+Folder MapMenu{
+class Map{
+    void openMap()
+}
+}
+}
+
+
+RegisterAction--up>InputKey
+RegisterAction-->IPlayerAction
+RegisterAction-->IManuPanelActivator
+RegisterAction-->IMenueUI
+ManuPanelActivator-.up|>IManuPanelActivator
+' MenueUI-.up|>IMenueUI
+Player-.up|>IPlayerAction
+
+ManuPanelActivator-->BagContensRenderer: 生成したパネルに画像表示
+BagContensRenderer-->BagItemPanel: パネルごとにitemIdを渡す
+BagItemPanel-->BagItemPreview: クリックされた所持アイテムをプレビュー画面に表示する
+BagItemPreview-->ItemPreview
+
+MenuPanelManager-.up|>IMenueUI
+
+ManuPanelActivator-->MenuPanelManager: パネル生成
+
+ManuPanelActivator-->Map
+
+ManuPanelActivator-->Button
+Button-->CraftTrigger
+CraftTrigger--le>MenuPanelManager: パネル生成
+CraftTrigger-->RecipeRenderer: 生成したパネルに画像表示
+RecipeRenderer-le>GameData
+RecipeRenderer-->CookItemPanel
+CookItemPanel-->CookItemPreview: プレビュー画面に表示させる
+CookItemPanel--do>CookExeButton: ItemIdを渡す
+CookItemPreview-->ItemPreview
+CookExeButton->Player: cookを行わせる
